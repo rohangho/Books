@@ -101,8 +101,8 @@ public final class QueryUtils {
                JSONObject current=bookarray.getJSONObject(i);
                 JSONObject info=current.getJSONObject("volumeInfo");
                 String bookname=info.getString("title");
-                //String authorname= current.getString("authors");
-                custom books = new custom(bookname,bookname);
+                String authorname= info.getString("authors");
+                custom books = new custom(bookname,authorname);
                 book.add(books);
             }
 
