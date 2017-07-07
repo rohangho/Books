@@ -100,7 +100,7 @@ public final class QueryUtils {
             JSONObject baseJsonResponse = new JSONObject(bookJson);
             JSONArray bookarray = baseJsonResponse.getJSONArray("items");
 
-            for (int i = 0; i <= bookarray.length(); i++) {
+            for (int i = 0; i < bookarray.length(); i++) {
                 JSONObject current = bookarray.getJSONObject(i);
                 JSONObject info = current.getJSONObject("volumeInfo");
                 String bookname = info.getString("title");
@@ -110,7 +110,7 @@ public final class QueryUtils {
                     custom books = new custom(bookname, authorname);
                     book.add(books);
                 } else {
-                    custom books = new custom(bookname, " ");
+                    custom books = new custom(bookname, "No author ");
                     book.add(books);
                 }
             }
