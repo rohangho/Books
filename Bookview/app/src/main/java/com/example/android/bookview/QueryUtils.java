@@ -3,6 +3,7 @@ package com.example.android.bookview;
 
 import android.text.TextUtils;
 import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,7 +61,7 @@ public final class QueryUtils {
                 Log.e("hi", "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e( "hi","Problem retrieving the earthquake JSON results.",e );
+            Log.e("hi", "Problem retrieving the earthquake JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -85,43 +86,48 @@ public final class QueryUtils {
         }
         return output.toString();
     }
+
     private QueryUtils() {
     }
+
     public static ArrayList<custom> extractbooks(String bookJson) {
 
         if (TextUtils.isEmpty(bookJson)) {
             return null;
         }
         ArrayList<custom> book = new ArrayList<>();
-        try
-        {
+        try {
             JSONObject baseJsonResponse = new JSONObject(bookJson);
-            JSONArray bookarray=baseJsonResponse.getJSONArray("items");
-            for (int i=0;i<=bookarray.length();i++){
-               JSONObject current=bookarray.getJSONObject(i);
-                JSONObject info=current.getJSONObject("volumeInfo");
-                String bookname=info.getString("title");
-                String authorname= info.getString("authors");
-                custom books = new custom(bookname,authorname);
-                book.add(books);
+            JSONArray bookarray = baseJsonResponse.getJSONArray("items");
+
+            for (int i = 0; i <= bookarray.length(); i++) {
+                JSONObject current = bookarray.getJSONObject(i);
+                JSONObject info = current.getJSONObject("volumeInfo");
+                String bookname = info.getString("title");
+                String authorname = info.getString("authors");
+                authorname = authorname.replaceAll("\\[", "by ").replaceAll("\\]","");
+                if (authorname.isEmpty() == false) {
+                    custom books = new custom(bookname, authorname);
+                    book.add(books);
+                } else {
+                    custom books = new custom(bookname, " ");
+                    book.add(books);
+                }
             }
 
-            }
-
-
-
-        catch (JSONException e) {
+        } catch (JSONException e) {
             Log.e("QueryUtils", "Problem parsing the JSON results", e);
         }
-            return book;
-        }
+        return book;
+    }
+
     public static List<custom> fetchData(String requestUrl) {
         URL url = createUrl(requestUrl);
         String jsonResponse = null;
         try {
             jsonResponse = makeHttpRequest(url);
         } catch (IOException e) {
-            Log.e("hi" ,"Problem making the HTTP request.", e);
+            Log.e("hi", "Problem making the HTTP request.", e);
         }
         List<custom> book = extractbooks(jsonResponse);
         return book;

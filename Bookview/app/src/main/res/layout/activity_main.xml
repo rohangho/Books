@@ -4,27 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/a"
-    tools:context="com.example.android.bookview.MainActivity"
-    android:weightSum="1">
+    android:orientation="vertical"
+    android:weightSum="1"
+    tools:context="com.example.android.bookview.MainActivity">
 
     <EditText
+        android:id="@+id/keyword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/text"
-        android:text="Enter the name of the book"
-        android:id="@+id/keyword">
-
+        android:hint="Enter the name of the book"
+        android:textColor="@color/text">
     </EditText>
 
     <Button
-
-        android:layout_alignParentBottom="true"
         android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Search"
-         />
+        android:layout_alignParentBottom="true"
+        android:text="Search" />
 
 </RelativeLayout>

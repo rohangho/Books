@@ -28,10 +28,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this,Books.class);
                 intent.putExtra("TEXT",textView.getText().toString());
                 startActivity(intent);
-
             }
         });
-
     }
 
 }

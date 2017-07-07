@@ -1,5 +1,6 @@
 package com.example.android.bookview;
 
+import android.app.LoaderManager;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,7 +9,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,13 +30,21 @@ public class Books extends AppCompatActivity {
         setContentView(R.layout.activity_books);
         ListView listView = (ListView) findViewById(R.id.list);
         mAdapter = new adapter(this, new ArrayList<custom>());
-        listView.setAdapter(mAdapter);
-        bookAsyncTask task = new bookAsyncTask();
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        //To enter the keyword you want to search
-        String a=getIntent().getStringExtra("TEXT");
-        task.execute(USGS_REQUEST_URL+a);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            listView.setAdapter(mAdapter);
+            bookAsyncTask task = new bookAsyncTask();
+            String a=getIntent().getStringExtra("TEXT");
+            task.execute(USGS_REQUEST_URL+a);
+        } else {
+            View loadingIndicator = findViewById(R.id.loading_indicator);
+            loadingIndicator.setVisibility(View.GONE);
+            mEmptyStateTextView.setText(R.string.no_internet_connection);
 
+        }
     }
 
     private class bookAsyncTask extends AsyncTask<String, Void, List<custom>> {

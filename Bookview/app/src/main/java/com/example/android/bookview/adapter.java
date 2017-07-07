@@ -29,19 +29,12 @@ public class adapter extends ArrayAdapter<custom> {
             listView = LayoutInflater.from(getContext()).inflate(
                     R.layout.list_item, parent, false);
         }
-
-
         custom current=getItem(position);
-
         TextView nameTextView = (TextView) listView.findViewById(R.id.name);
-
         nameTextView.setText(current.getbook());
-
         TextView numberTextView = (TextView) listView.findViewById(R.id.author);
         numberTextView.setText(current.getauthor());
-
         return listView;
-
     }
 }
 
