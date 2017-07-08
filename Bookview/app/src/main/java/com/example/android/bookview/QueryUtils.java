@@ -91,7 +91,7 @@ public final class QueryUtils {
     }
 
     public static ArrayList<custom> extractbooks(String bookJson) {
-
+        String authorname;
         if (TextUtils.isEmpty(bookJson)) {
             return null;
         }
@@ -104,15 +104,21 @@ public final class QueryUtils {
                 JSONObject current = bookarray.getJSONObject(i);
                 JSONObject info = current.getJSONObject("volumeInfo");
                 String bookname = info.getString("title");
-                String authorname = info.getString("authors");
-                authorname = authorname.replaceAll("\\[", "by ").replaceAll("\\]","");
-                if (authorname.isEmpty() == false) {
+                if(info.has("authors")) {
+                     authorname = info.getString("authors");
+                    authorname = authorname.replaceAll("\\[", "by ").replaceAll("\\]","");
                     custom books = new custom(bookname, authorname);
                     book.add(books);
-                } else {
-                    custom books = new custom(bookname, "No author ");
-                    book.add(books);
                 }
+                 else{
+                    authorname="No Author";
+                    custom books=new custom(bookname,authorname);
+                    book.add(books);
+                 }
+
+
+
+
             }
 
         } catch (JSONException e) {

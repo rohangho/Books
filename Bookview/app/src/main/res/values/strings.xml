@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Book view</string>
     <string name="no_internet_connection">NO INTERNET CONNECTION</string>
+    <string name="no_date_found">NO DATA FOUND</string>
 </resources>

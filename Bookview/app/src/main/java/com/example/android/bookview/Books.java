@@ -21,7 +21,7 @@ import static com.example.android.bookview.R.drawable.a;
 
 public class Books extends AppCompatActivity {
 
-
+    private TextView mEmptyStateTextView;
     private static final String USGS_REQUEST_URL ="https://www.googleapis.com/books/v1/volumes?q=";
     private adapter mAdapter;
 
@@ -31,7 +31,7 @@ public class Books extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_books);
         ListView listView = (ListView) findViewById(R.id.list);
-       TextView mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+       mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         listView.setEmptyView(mEmptyStateTextView);
 
         mAdapter = new adapter(this, new ArrayList<custom>());
@@ -57,6 +57,7 @@ public class Books extends AppCompatActivity {
         protected List<custom> doInBackground(String... urls) {
             if (urls.length < 1 || urls[0] == null) {
                 return null;
+
             }
             List<custom> result = QueryUtils.fetchData(urls[0]);
             return result;
@@ -65,6 +66,7 @@ public class Books extends AppCompatActivity {
         protected void onPostExecute(List<custom> data) {
             mAdapter.clear();
             if (data != null && !data.isEmpty()) {
+                mEmptyStateTextView.setText(R.string.no_date_found);
                 mAdapter.addAll(data);
             }
         }
